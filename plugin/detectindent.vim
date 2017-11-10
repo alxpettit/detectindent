@@ -207,7 +207,8 @@ fun! <SID>DetectIndent()
     endif
 
     " indent width setting section
-    if l:leading_space_count > 0
+    " if there's very little space indented lines, they tend to be misleading
+    if l:leading_space_count > 0 && (100.0 * l:leading_space_count / (l:leading_space_count + l:leading_tab_count) >= 10.0)
         " I think absolutely no one uses 1 space indents
         call filter(l:leading_space_dict, 'v:key > 1')
         " Filter out those tab stops which occurred in < 10% of the lines
